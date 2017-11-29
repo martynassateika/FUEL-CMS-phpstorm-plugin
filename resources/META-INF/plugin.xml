@@ -25,10 +25,17 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+    <!-- Declare the project level service -->
+    <projectService serviceInterface="lt.martynassateika.fuelcms.service.FuelAdvancedModuleService" serviceImplementation="lt.martynassateika.fuelcms.service.FuelAdvancedModuleService" />
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
+    <action id="lt.martynassateika.fuelcms.action.GenerateModelAction"
+            class="lt.martynassateika.fuelcms.action.GenerateModelAction" text="FUEL CMS Model"
+            description="Generate a FUEL CMS model">
+      <add-to-group group-id="NewGroup" anchor="first"/>
+    </action>
   </actions>
 
 </idea-plugin>
