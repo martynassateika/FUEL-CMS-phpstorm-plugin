@@ -19,7 +19,6 @@ package lt.martynassateika.fuelcms.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
-import lt.martynassateika.fuelcms.ui.GenerateModelDialogWrapper;
 import lt.martynassateika.fuelcms.ui.GenerateSimpleModuleDialogWrapper;
 import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
 

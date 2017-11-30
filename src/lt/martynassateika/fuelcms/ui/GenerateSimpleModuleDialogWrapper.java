@@ -20,8 +20,6 @@ import com.google.common.base.Joiner;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.jetbrains.php.config.PhpProjectConfigurationFacade;
-import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import lt.martynassateika.fuelcms.generate.FuelCmsSimpleModule;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
@@ -87,13 +85,8 @@ public class GenerateSimpleModuleDialogWrapper extends GenerateDialogWrapper {
         if (this.simpleModuleName.getText().trim().isEmpty()) {
             return new ValidationInfo("Simple module name not specified.");
         }
-        // Check PHP is installed
-        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
-        PhpInterpreter phpInterpreter = facade.getInterpreter();
-        if (phpInterpreter == null) {
-            return new ValidationInfo("PHP interpreter is not configured.");
-        }
-        return null;
+
+        return super.doValidate();
     }
 
     private void setUpListeners() {

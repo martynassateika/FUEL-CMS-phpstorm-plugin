@@ -20,6 +20,9 @@ import com.intellij.execution.ExecutionException;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.ValidationInfo;
+import com.jetbrains.php.config.PhpProjectConfigurationFacade;
+import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import lt.martynassateika.fuelcms.generate.FuelCli;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +63,18 @@ public abstract class GenerateDialogWrapper extends DialogWrapper {
                 // TODO Notification
             }
         }
+    }
 
+    @Nullable
+    @Override
+    protected ValidationInfo doValidate() {
+        // Check PHP is installed
+        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
+        PhpInterpreter phpInterpreter = facade.getInterpreter();
+        if (phpInterpreter == null) {
+            return new ValidationInfo("PHP interpreter is not configured.");
+        }
+        return super.doValidate();
     }
 
 }

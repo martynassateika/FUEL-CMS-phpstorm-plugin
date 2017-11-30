@@ -54,6 +54,12 @@ public class FuelCmsVfsUtils {
                 .collect(Collectors.toList());
     }
 
+    public static boolean advancedModuleExists(Project project, String name) {
+        return getAdvancedModules(project).stream()
+                .map(VirtualFile::getName)
+                .anyMatch(fileName -> fileName.equals(name));
+    }
+
     public static List<VirtualFile> getModuleFolders(Project project) {
         return getModulesFolder(project).map(vf -> Stream.of(vf.getChildren())
                 .filter(VirtualFile::isDirectory)

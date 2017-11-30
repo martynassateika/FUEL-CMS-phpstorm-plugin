@@ -19,17 +19,12 @@ package lt.martynassateika.fuelcms.ui;
 import com.google.common.base.Joiner;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.jetbrains.php.config.PhpProjectConfigurationFacade;
-import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import lt.martynassateika.fuelcms.generate.FuelCmsAdvancedModule;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GenerateAdvancedModuleDialogWrapper extends GenerateDialogWrapper {
 
@@ -70,21 +65,11 @@ public class GenerateAdvancedModuleDialogWrapper extends GenerateDialogWrapper {
             return new ValidationInfo("Advanced module name not specified.");
         }
 
-        List<String> advancedModules = FuelCmsVfsUtils.getAdvancedModules(project)
-                .stream()
-                .map(VirtualFile::getName)
-                .collect(Collectors.toList());
-        if (advancedModules.contains(trimmedName)) {
+        if (FuelCmsVfsUtils.advancedModuleExists(project, trimmedName)) {
             return new ValidationInfo("Advanced module with this name already exists.");
         }
 
-        // Check PHP is installed
-        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
-        PhpInterpreter phpInterpreter = facade.getInterpreter();
-        if (phpInterpreter == null) {
-            return new ValidationInfo("PHP interpreter is not configured.");
-        }
-        return null;
+        return super.doValidate();
     }
 
     private void setUpListeners() {

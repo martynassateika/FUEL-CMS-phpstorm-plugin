@@ -20,7 +20,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
 import lt.martynassateika.fuelcms.ui.GenerateAdvancedModuleDialogWrapper;
-import lt.martynassateika.fuelcms.ui.GenerateSimpleModuleDialogWrapper;
 import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
 
 /**
