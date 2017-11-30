@@ -45,6 +45,13 @@
             <add-to-group group-id="NewGroup" anchor="after"
                           relative-to-action="lt.martynassateika.fuelcms.action.GenerateModelAction"/>
         </action>
+        <action id="lt.martynassateika.fuelcms.action.GenerateAdvancedModuleAction"
+                class="lt.martynassateika.fuelcms.action.GenerateAdvancedModuleAction"
+                text="FUEL CMS Advanced Module"
+                description="Generate an advanced FUEL CMS module">
+            <add-to-group group-id="NewGroup" anchor="after"
+                          relative-to-action="lt.martynassateika.fuelcms.action.GenerateSimpleModuleAction"/>
+        </action>
     </actions>
 
 </idea-plugin>
