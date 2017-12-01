@@ -17,11 +17,14 @@
 package lt.martynassateika.fuelcms.ui;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.jetbrains.php.refactoring.PhpNameUtil;
 import lt.martynassateika.fuelcms.generate.FuelCmsAdvancedModule;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
+import lt.martynassateika.fuelcms.util.Messages;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -65,8 +68,19 @@ public class GenerateAdvancedModuleDialogWrapper extends GenerateDialogWrapper {
             return new ValidationInfo("Advanced module name not specified.");
         }
 
-        if (FuelCmsVfsUtils.advancedModuleExists(project, trimmedName)) {
-            return new ValidationInfo("Advanced module with this name already exists.");
+        // The user can supply one or more advanced module names.
+        // Check they're all valid PHP class names, and do not already exist.
+        Iterable<String> split = Splitter.on(":").split(this.advancedModuleName.getText());
+        for (String name : split) {
+            if (!PhpNameUtil.isValidClassName(name)) {
+                return new ValidationInfo(Messages.invalidClassName(name));
+            }
+            if (FuelCmsVfsUtils.advancedModuleExists(project, name)) {
+                return new ValidationInfo(String.format(
+                        "Advanced module '%s' already exists",
+                        name
+                ));
+            }
         }
 
         return super.doValidate();
