@@ -44,4 +44,9 @@ public class FuelCmsAdvancedModule implements GenerateTarget {
         return strings;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
 }

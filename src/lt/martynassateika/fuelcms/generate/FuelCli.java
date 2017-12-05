@@ -59,7 +59,7 @@ public class FuelCli {
                     .withCharset(StandardCharsets.UTF_8)
                     .withWorkDirectory(project.getBasePath());
             ProcessHandler processHandler = new OSProcessHandler(commandLine);
-            processHandler.addProcessListener(new DefaultProcessListener(project));
+            processHandler.addProcessListener(new DefaultProcessListener(project, target));
             processHandler.startNotify();
         } else {
             LOGGER.debug("Not running generate command, reason: PHP interpreter is not set up.");

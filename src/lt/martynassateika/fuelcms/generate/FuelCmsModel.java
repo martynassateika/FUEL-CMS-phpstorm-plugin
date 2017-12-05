@@ -55,4 +55,9 @@ public class FuelCmsModel implements GenerateTarget {
         return strings;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
 }

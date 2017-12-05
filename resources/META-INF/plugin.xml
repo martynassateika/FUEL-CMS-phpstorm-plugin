@@ -26,29 +26,33 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <!-- Declare the project level service -->
-        <projectService
-                serviceInterface="lt.martynassateika.fuelcms.service.FuelAdvancedModuleService"
-                serviceImplementation="lt.martynassateika.fuelcms.service.FuelAdvancedModuleService"/>
+        <projectService id="FuelCmsConsoleService"
+                        serviceImplementation="lt.martynassateika.fuelcms.generate.ConsoleService" />
+        <toolWindow id="FUEL CMS Log" icon="Icons.FUEL_CMS_ICON" anchor="bottom"
+                    factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
         <action id="lt.martynassateika.fuelcms.action.GenerateModelAction"
                 class="lt.martynassateika.fuelcms.action.GenerateModelAction" text="FUEL CMS Model"
-                description="Generate a FUEL CMS model">
+                description="Generate a FUEL CMS model"
+                icon="Icons.FUEL_CMS_ICON">
             <add-to-group group-id="NewGroup" anchor="last"/>
         </action>
         <action id="lt.martynassateika.fuelcms.action.GenerateSimpleModuleAction"
                 class="lt.martynassateika.fuelcms.action.GenerateSimpleModuleAction"
                 text="FUEL CMS Simple Module"
-                description="Generate a simple FUEL CMS module">
+                description="Generate a simple FUEL CMS module"
+                icon="Icons.FUEL_CMS_ICON">
             <add-to-group group-id="NewGroup" anchor="after"
                           relative-to-action="lt.martynassateika.fuelcms.action.GenerateModelAction"/>
         </action>
         <action id="lt.martynassateika.fuelcms.action.GenerateAdvancedModuleAction"
                 class="lt.martynassateika.fuelcms.action.GenerateAdvancedModuleAction"
                 text="FUEL CMS Advanced Module"
-                description="Generate an advanced FUEL CMS module">
+                description="Generate an advanced FUEL CMS module"
+                icon="Icons.FUEL_CMS_ICON">
             <add-to-group group-id="NewGroup" anchor="after"
                           relative-to-action="lt.martynassateika.fuelcms.action.GenerateSimpleModuleAction"/>
         </action>

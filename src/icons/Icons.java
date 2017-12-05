@@ -14,29 +14,17 @@
  * limitations under the License.
  */
 
-package lt.martynassateika.fuelcms.generate;
+package icons;
 
-import java.util.List;
+import com.intellij.openapi.util.IconLoader;
+
+import javax.swing.*;
 
 /**
- * Represents the target of a FuelCMS generate command.
- * <p>
- * This includes models, simple modules and advanced modules.
+ * Houses icons used by the plugin.
  */
-public interface GenerateTarget {
+public class Icons {
 
-    /**
-     * Returns the command to execute.
-     * <p>
-     * The executable is not included, the first element represents the 'index.php' file.
-     *
-     * @return the 'generate' command, separated at spaces
-     */
-    List<String> getCommand();
-
-    /**
-     * @return name of the target
-     */
-    String getName();
+    public static final Icon FUEL_CMS_ICON = IconLoader.getIcon("/icons/fuelcms_icon.png");
 
 }

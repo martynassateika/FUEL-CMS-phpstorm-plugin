@@ -16,27 +16,25 @@
 
 package lt.martynassateika.fuelcms.generate;
 
-import java.util.List;
+import com.intellij.execution.filters.TextConsoleBuilderFactory;
+import com.intellij.execution.ui.ConsoleView;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.ToolWindow;
 
 /**
- * Represents the target of a FuelCMS generate command.
- * <p>
- * This includes models, simple modules and advanced modules.
+ * Allows easy access to the {@link ConsoleView} associated with the FuelCMS Log {@link ToolWindow}.
  */
-public interface GenerateTarget {
+public class ConsoleService {
 
-    /**
-     * Returns the command to execute.
-     * <p>
-     * The executable is not included, the first element represents the 'index.php' file.
-     *
-     * @return the 'generate' command, separated at spaces
-     */
-    List<String> getCommand();
+    private final ConsoleView consoleView;
 
-    /**
-     * @return name of the target
-     */
-    String getName();
+    public ConsoleService(Project project) {
+        this.consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project)
+                .getConsole();
+    }
+
+    public ConsoleView getConsoleView() {
+        return consoleView;
+    }
 
 }

@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-package lt.martynassateika.fuelcms.generate;
-
-import java.util.List;
+package lt.martynassateika.fuelcms.ui;
 
 /**
- * Represents the target of a FuelCMS generate command.
- * <p>
- * This includes models, simple modules and advanced modules.
+ * Houses the plugin's constants
  */
-public interface GenerateTarget {
+public class PluginConstants {
 
-    /**
-     * Returns the command to execute.
-     * <p>
-     * The executable is not included, the first element represents the 'index.php' file.
-     *
-     * @return the 'generate' command, separated at spaces
-     */
-    List<String> getCommand();
+    private static final String PREFIX = "lt.martynassateika.fuelcms";
 
-    /**
-     * @return name of the target
-     */
-    String getName();
+    public static final String NOTIFICATION_GROUP = PREFIX;
 
 }
