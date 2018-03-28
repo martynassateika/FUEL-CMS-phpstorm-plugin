@@ -26,11 +26,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <completion.contributor language="any"
+                                implementationClass="lt.martynassateika.fuelcms.completion.BlockNameCompletionContributor"/>
         <!-- Declare the project level service -->
         <projectService id="FuelCmsConsoleService"
                         serviceImplementation="lt.martynassateika.fuelcms.generate.ConsoleService"/>
         <toolWindow id="FUEL CMS Log" icon="Icons.FUEL_CMS_ICON" anchor="bottom"
                     factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
+        <psi.referenceContributor
+                implementation="lt.martynassateika.fuelcms.reference.BlockReferenceContributor"/>
     </extensions>
 
     <actions>

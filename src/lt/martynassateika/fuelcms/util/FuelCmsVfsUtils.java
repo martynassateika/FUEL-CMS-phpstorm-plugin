@@ -17,6 +17,7 @@
 package lt.martynassateika.fuelcms.util;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -77,6 +78,21 @@ public class FuelCmsVfsUtils {
 
     public static Optional<VirtualFile> getConstantsFileOfModule(Project project, @NotNull String moduleName) {
         return getModuleConfigFolder(project, moduleName).map(vf -> vf.findChild(moduleName + "_constants.php"));
+    }
+
+    public static List<VirtualFile> getBlocks(Project project) {
+        return getBlocksFolder(project)
+                .map(VfsUtil::collectChildrenRecursively)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(vf -> "php".equalsIgnoreCase(vf.getExtension()))
+                .collect(Collectors.toList());
+    }
+
+    public static Optional<VirtualFile> getBlocksFolder(Project project) {
+        return getApplicationFolder(project)
+                .map(vf -> vf.findChild("views"))
+                .map(vf -> vf.findChild("_blocks"));
     }
 
 }
