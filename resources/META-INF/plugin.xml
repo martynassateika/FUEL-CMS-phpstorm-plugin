@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>lt.martynassateika.fuelcms</id>
     <name>FuelCMS Plugin</name>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <vendor url="http://www.martynassateika.lt">Martynas Sateika</vendor>
 
     <description><![CDATA[
@@ -9,6 +9,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    0.2.0 (2018-04-11):
+    <ul>
+        <li>Initial support for Fuel Blocks: added block name completion and reference contributors</li>
+    </ul>
+
     0.1.0 (2017-12-05):
     <ul>
         <li>Support for 'Generate' commands</li>
@@ -26,11 +31,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <completion.contributor language="any"
+                                implementationClass="lt.martynassateika.fuelcms.completion.BlockNameCompletionContributor"/>
         <!-- Declare the project level service -->
         <projectService id="FuelCmsConsoleService"
                         serviceImplementation="lt.martynassateika.fuelcms.generate.ConsoleService"/>
         <toolWindow id="FUEL CMS Log" icon="Icons.FUEL_CMS_ICON" anchor="bottom"
                     factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
+        <psi.referenceContributor
+                implementation="lt.martynassateika.fuelcms.reference.BlockReferenceContributor"/>
     </extensions>
 
     <actions>
