@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-package lt.martynassateika.fuelcms.ui;
+package lt.martynassateika.fuelcms.pattern;
 
-/**
- * Houses the plugin's constants
- */
-public class PluginConstants {
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.patterns.PsiElementPattern;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.jetbrains.php.lang.PhpLanguage;
+import org.jetbrains.annotations.NotNull;
 
-    private static final String PREFIX = "lt.martynassateika.fuelcms";
+public final class Patterns {
 
-    public static final String NOTIFICATION_GROUP = PREFIX;
+    private Patterns() {
+    }
+
+    @NotNull
+    public static PsiElementPattern.Capture<LeafPsiElement> phpString() {
+        return PlatformPatterns
+                .psiElement(LeafPsiElement.class)
+                .withLanguage(PhpLanguage.INSTANCE);
+    }
 
 }
