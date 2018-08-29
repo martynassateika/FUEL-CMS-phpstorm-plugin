@@ -95,4 +95,14 @@ public class FuelCmsVfsUtils {
                 .map(vf -> vf.findChild("_blocks"));
     }
 
+    public static Optional<VirtualFile> getModuleViewsFolder(Project project, @NotNull String moduleName) {
+      return getModuleFolder(project, moduleName)
+          .map(vf -> vf.findChild("views"));
+    }
+
+    public static Optional<VirtualFile> getModuleDocumentationFolder(Project project, @NotNull String moduleName) {
+        return getModuleViewsFolder(project, moduleName)
+            .map(vf -> vf.findChild("_docs"));
+    }
+
 }
