@@ -75,7 +75,6 @@ public class DocumentationFileNotificationProvider extends
       Desktop desktop = Desktop.getDesktop();
       try {
         URI uri = documentationPath.get();
-        System.out.println(uri);
         desktop.browse(uri);
       } catch (IOException e) {
         e.printStackTrace();
