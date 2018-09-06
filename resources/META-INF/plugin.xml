@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>lt.martynassateika.fuelcms</id>
     <name>FuelCMS Plugin</name>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <vendor url="http://www.martynassateika.lt">Martynas Sateika</vendor>
 
     <description><![CDATA[
@@ -9,6 +9,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    0.3.0 (2018-09-06):
+    <ul>
+        <li>Editor notification to view FUEL documentation on-line</li>
+    </ul>
+
     0.2.0 (2018-04-11):
     <ul>
         <li>Initial support for Fuel Blocks: added block name completion and reference contributors</li>
@@ -40,6 +45,8 @@
                     factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
         <psi.referenceContributor
                 implementation="lt.martynassateika.fuelcms.reference.BlockReferenceContributor"/>
+      <editorNotificationProvider
+        implementation="lt.martynassateika.fuelcms.notification.DocumentationFileNotificationProvider"/>
     </extensions>
 
     <actions>
