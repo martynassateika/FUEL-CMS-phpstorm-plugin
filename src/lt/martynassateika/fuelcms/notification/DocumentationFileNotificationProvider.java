@@ -16,17 +16,15 @@
 
 package lt.martynassateika.fuelcms.notification;
 
+import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
-import java.awt.Desktop;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
-import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
 import lt.martynassateika.fuelcms.util.FuelWebsiteUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,13 +70,8 @@ public class DocumentationFileNotificationProvider extends
 
     panel.setText("You are viewing a FUEL CMS documentation file");
     panel.createActionLabel("View online", () -> {
-      Desktop desktop = Desktop.getDesktop();
-      try {
-        URI uri = documentationPath.get();
-        desktop.browse(uri);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      URI uri = documentationPath.get();
+      BrowserUtil.browse(uri);
     });
     return panel;
   }
