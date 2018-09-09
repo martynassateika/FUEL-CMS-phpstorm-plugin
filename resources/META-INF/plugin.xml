@@ -41,6 +41,16 @@
         <!-- Declare the project level service -->
         <projectService id="FuelCmsConsoleService"
                         serviceImplementation="lt.martynassateika.fuelcms.generate.ConsoleService"/>
+
+        <projectService serviceInterface="lt.martynassateika.fuelcms.FuelCmsProjectSettings"
+          serviceImplementation="lt.martynassateika.fuelcms.FuelCmsProjectSettings" />
+
+        <projectConfigurable id="FuelCms.SettingsConfigurable"
+          instance="lt.martynassateika.fuelcms.ui.FuelCmsSettingsConfigurable"
+          displayName="FUEL CMS"
+          parentId="reference.webide.settings.project.settings.php"
+          nonDefaultProject="true" />
+
         <toolWindow id="FUEL CMS Log" icon="Icons.FUEL_CMS_ICON" anchor="bottom"
                     factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
         <psi.referenceContributor

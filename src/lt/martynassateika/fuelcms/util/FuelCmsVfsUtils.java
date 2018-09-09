@@ -16,9 +16,11 @@
 
 package lt.martynassateika.fuelcms.util;
 
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import lt.martynassateika.fuelcms.FuelCmsProjectSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -30,7 +32,9 @@ import java.util.stream.Stream;
 public class FuelCmsVfsUtils {
 
     public static Optional<VirtualFile> getFuelFolder(Project project) {
-        return Optional.ofNullable(project.getBaseDir().findChild("fuel"));
+      FuelCmsProjectSettings projectSettings = ServiceManager
+          .getService(project, FuelCmsProjectSettings.class);
+      return Optional.ofNullable(projectSettings.getFuelFolder());
     }
 
     public static Optional<VirtualFile> getApplicationFolder(Project project) {
