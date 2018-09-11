@@ -20,7 +20,9 @@ import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
 import com.jetbrains.php.lang.psi.elements.ArrayHashElement;
 import com.jetbrains.php.lang.psi.elements.FunctionReference;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpExpression;
 import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
@@ -35,9 +37,21 @@ public class FuelBlockPsiUtil {
     /**
      * Returns {@code true} if {@code element} represents the name of a Fuel Block.
      * <p>
-     * Fuel Blocks can be named in two different ways. Inside the function parameter list, the name
-     * can either be the first string parameter (e.g. "fuel_block('foo')"), or under the
-     * 'view' key in the first array parameter (e.g. "fuel_block(array('view' => 'foo')").
+     * Fuel Blocks can be rendered by calling the 'render' method in the 'Fuel_blocks' class, and
+     * FUEL CMS additionally supplies a helper function 'fuel_block'.
+     *
+     * Regardless of which one is used, the name of the block is either the first string parameter,
+     * or under the 'view' key in the first array parameter, e.g.:
+     *
+     * fuel_block('foo');
+     * fuel_block(array('view' => 'foo'));
+     * $this->fuel->blocks->render('foo');
+     * $this->fuel->blocks->render(array('view' => 'foo'));
+     *
+     * 'blocks' is actually a magic property in the 'Fuel' master object, however it is not defined
+     * in the class's PHPDoc (yet) and so we cannot have PhpStorm follow the references! Instead,
+     * we short-circuit: if the method is called 'render' and the class reference is named 'blocks',
+     * we say 'good enough' and contribute the reference to the view name.
      *
      * @param element a PSI element
      * @return {@code true} if {@code element} represents the name of a Fuel Block
@@ -48,8 +62,7 @@ public class FuelBlockPsiUtil {
         if (parameterList != null) {
             PsiElement[] parameters = parameterList.getParameters();
             if (parameters[0] == element) {
-                FunctionReference functionReference = getParentOfType(parameterList, FunctionReference.class);
-                return isFuelBlockFunctionReference(functionReference);
+                return isFuelBlockFunctionReference(parameterList) || isRenderMethod(parameterList);
             }
         } else {
           // Check if string is value in array
@@ -66,8 +79,7 @@ public class FuelBlockPsiUtil {
                     PsiElement[] parameters = parameterList.getParameters();
                     // The array must be the first parameter of 'fuel_block'
                     if (parameters[0] == arrayCreationExpression) {
-                      FunctionReference functionReference = getParentOfType(parameterList, FunctionReference.class);
-                      return isFuelBlockFunctionReference(functionReference);
+                      return isFuelBlockFunctionReference(parameterList) || isRenderMethod(parameterList);
                     }
                   }
                 }
@@ -79,11 +91,29 @@ public class FuelBlockPsiUtil {
     }
 
     /**
-     * @param functionReference a function reference
-     * @return {@code true} if {@code functionReference} represents the 'fuel_block' function
+     * @param parameterList function or method parameter list
+     * @return {@code true} if the parameter list is that associated with the 'fuel_block' function
      */
-    private static boolean isFuelBlockFunctionReference(FunctionReference functionReference) {
-        return functionReference != null && "fuel_block".equals(functionReference.getName());
+    private static boolean isFuelBlockFunctionReference(ParameterList parameterList) {
+      FunctionReference functionReference = getParentOfType(parameterList, FunctionReference.class);
+      return functionReference != null && "fuel_block".equals(functionReference.getName());
+    }
+
+    /**
+     * @param parameterList function or method parameter list
+     * @return {@code true} if the parameter list is associated with a method called 'render', with
+     * resolving class reference named 'blocks'
+     */
+    private static boolean isRenderMethod(ParameterList parameterList) {
+      MethodReference methodReference = getParentOfType(parameterList, MethodReference.class);
+      if (methodReference != null && "render".equals(methodReference.getName())) {
+        PhpExpression classReference = methodReference.getClassReference();
+        if (classReference != null) {
+          String className = classReference.getName();
+          return "blocks".equals(className);
+        }
+      }
+      return false;
     }
 
 }
