@@ -17,8 +17,11 @@
 package lt.martynassateika.fuelcms.psi.util;
 
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
+import com.jetbrains.php.lang.psi.elements.ArrayHashElement;
 import com.jetbrains.php.lang.psi.elements.FunctionReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpPsiElement;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,14 +43,37 @@ public class FuelBlockPsiUtil {
      * @return {@code true} if {@code element} represents the name of a Fuel Block
      */
     public static boolean isFuelBlockName(@NotNull StringLiteralExpression element) {
+        // Check if string is first parameter
         ParameterList parameterList = getParentOfType(element, ParameterList.class);
         if (parameterList != null) {
             PsiElement[] parameters = parameterList.getParameters();
             if (parameters[0] == element) {
                 FunctionReference functionReference = getParentOfType(parameterList, FunctionReference.class);
                 return isFuelBlockFunctionReference(functionReference);
-                // TODO Handle case where the first element is an array.
             }
+        } else {
+          // Check if string is value in array
+          ArrayHashElement arrayHashElement = MyPsiUtil.walkUp(element, 2, ArrayHashElement.class);
+          if (arrayHashElement != null) {
+            PhpPsiElement key = arrayHashElement.getKey();
+            if (key instanceof StringLiteralExpression) {
+              String contents = ((StringLiteralExpression) key).getContents();
+              if (contents.equals("view")) {
+                ArrayCreationExpression arrayCreationExpression = getParentOfType(arrayHashElement, ArrayCreationExpression.class);
+                if (arrayCreationExpression != null) {
+                  parameterList = getParentOfType(arrayCreationExpression, ParameterList.class);
+                  if (parameterList != null) {
+                    PsiElement[] parameters = parameterList.getParameters();
+                    // The array must be the first parameter of 'fuel_block'
+                    if (parameters[0] == arrayCreationExpression) {
+                      FunctionReference functionReference = getParentOfType(parameterList, FunctionReference.class);
+                      return isFuelBlockFunctionReference(functionReference);
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         return false;
     }
