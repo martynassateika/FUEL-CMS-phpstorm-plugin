@@ -20,6 +20,8 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiManager;
+import com.jetbrains.php.lang.psi.PhpFile;
 import lt.martynassateika.fuelcms.FuelCmsProjectSettings;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,8 +82,12 @@ public class FuelCmsVfsUtils {
         return getModuleFolder(project, moduleName).map(vf -> vf.findChild("config"));
     }
 
-    public static Optional<VirtualFile> getConstantsFileOfModule(Project project, @NotNull String moduleName) {
-        return getModuleConfigFolder(project, moduleName).map(vf -> vf.findChild(moduleName + "_constants.php"));
+    public static Optional<PhpFile> getConstantsFileOfModule(Project project, @NotNull String moduleName) {
+      PsiManager psiManager = PsiManager.getInstance(project);
+      return getModuleConfigFolder(project, moduleName).map(vf -> vf.findChild(moduleName + "_constants.php"))
+            .map(psiManager::findFile)
+            .filter(PhpFile.class::isInstance)
+            .map(PhpFile.class::cast);
     }
 
     public static List<VirtualFile> getBlocks(Project project) {

@@ -57,6 +57,8 @@
                 implementation="lt.martynassateika.fuelcms.reference.BlockReferenceContributor"/>
       <editorNotificationProvider
         implementation="lt.martynassateika.fuelcms.notification.DocumentationFileNotificationProvider"/>
+      <treeStructureProvider
+        implementation="lt.martynassateika.fuelcms.ui.ModuleTreeStructureProvider"/>
     </extensions>
 
     <actions>
