@@ -29,6 +29,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.ui.PluginConstants;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +60,7 @@ class DefaultProcessListener implements ProcessListener {
     }
 
     @Override
-    public void startNotified(ProcessEvent processEvent) {
+    public void startNotified(@NotNull ProcessEvent processEvent) {
         // Clear existing output
         consoleView.clear();
 
@@ -69,17 +70,17 @@ class DefaultProcessListener implements ProcessListener {
     }
 
     @Override
-    public void processTerminated(ProcessEvent processEvent) {
+    public void processTerminated(@NotNull ProcessEvent processEvent) {
         // Notify user
         Notification notification;
         if (processEvent.getExitCode() == 0) {
             notification = getGenerateNotification(
-                    String.format("\"%s\" successfully created.", target.getName()),
+                    FuelCmsBundle.message("notification.generate.success", target.getName()),
                     NotificationType.INFORMATION
             );
         } else {
             notification = getGenerateNotification(
-                    String.format("Could not generate \"%s\".", target.getName()),
+                    FuelCmsBundle.message("notification.generate.failure", target.getName()),
                     NotificationType.ERROR
             );
         }
@@ -91,11 +92,11 @@ class DefaultProcessListener implements ProcessListener {
     }
 
     @Override
-    public void processWillTerminate(ProcessEvent processEvent, boolean b) {
+    public void processWillTerminate(@NotNull ProcessEvent processEvent, boolean b) {
     }
 
     @Override
-    public void onTextAvailable(ProcessEvent processEvent, Key key) {
+    public void onTextAvailable(@NotNull ProcessEvent processEvent, @NotNull Key key) {
         if (ProcessOutputTypes.STDERR.equals(key)) {
             this.consoleView.print(processEvent.getText(), ConsoleViewContentType.ERROR_OUTPUT);
         } else if (ProcessOutputTypes.SYSTEM.equals(key)) {

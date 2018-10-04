@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCmsSimpleModule;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
@@ -46,7 +47,7 @@ public class GenerateSimpleModuleDialogWrapper extends GenerateDialogWrapper {
         // Custom setup
         setUpListeners();
         populateAdvancedModules(project);
-        setTitle("FUEL CMS: Generate Simple Module");
+        setTitle(FuelCmsBundle.message("dialog.generate.simple.module.title"));
 
         // Defaults
         simpleModuleName.setText("example");
@@ -65,7 +66,7 @@ public class GenerateSimpleModuleDialogWrapper extends GenerateDialogWrapper {
     }
 
     private void populateAdvancedModules(Project project) {
-        advancedModule.addItem("none (use application folder)");
+        advancedModule.addItem(FuelCmsBundle.message("dialog.generate.no.advanced.module.dropdown.item"));
         List<String> advancedModules = FuelCmsVfsUtils.getAdvancedModules(project)
                 .stream()
                 .map(VirtualFile::getName)
@@ -83,7 +84,8 @@ public class GenerateSimpleModuleDialogWrapper extends GenerateDialogWrapper {
     @Override
     protected ValidationInfo doValidate() {
         if (this.simpleModuleName.getText().trim().isEmpty()) {
-            return new ValidationInfo("Simple module name not specified.");
+            return new ValidationInfo(FuelCmsBundle.message(
+                "validation.simple.module.name.not.specified"));
         }
 
         return super.doValidate();

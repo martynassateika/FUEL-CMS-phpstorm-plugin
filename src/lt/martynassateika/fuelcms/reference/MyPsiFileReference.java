@@ -28,22 +28,24 @@ import org.jetbrains.annotations.Nullable;
 /**
  * PsiReference implementation used to resolve string literals to files.
  */
-public class MyPsiFileReference implements PsiReference {
+class MyPsiFileReference implements PsiReference {
 
     private final PsiFile file;
 
     private final StringLiteralExpression literalExpression;
 
-    public MyPsiFileReference(PsiFile file, StringLiteralExpression literalExpression) {
+    MyPsiFileReference(PsiFile file, StringLiteralExpression literalExpression) {
         this.file = file;
         this.literalExpression = literalExpression;
     }
 
+    @NotNull
     @Override
     public PsiElement getElement() {
         return literalExpression;
     }
 
+    @NotNull
     @Override
     public TextRange getRangeInElement() {
         int start = literalExpression.getTextRange().getStartOffset();

@@ -20,6 +20,7 @@ import com.google.common.base.Joiner;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCmsModel;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
@@ -46,7 +47,7 @@ public class GenerateModelDialogWrapper extends GenerateDialogWrapper {
         // Custom setup
         setUpListeners();
         populateAdvancedModules(project);
-        setTitle("FUEL CMS: Generate Model");
+        setTitle(FuelCmsBundle.message("dialog.generate.model.title"));
 
         // Defaults
         modelName.setText("example");
@@ -65,7 +66,8 @@ public class GenerateModelDialogWrapper extends GenerateDialogWrapper {
     }
 
     private void populateAdvancedModules(Project project) {
-        advancedModule.addItem("none (use application folder)");
+        advancedModule.addItem(FuelCmsBundle.message(
+            "dialog.generate.no.advanced.module.dropdown.item"));
         List<String> advancedModules = FuelCmsVfsUtils.getAdvancedModules(project)
                 .stream()
                 .map(VirtualFile::getName)
@@ -83,7 +85,7 @@ public class GenerateModelDialogWrapper extends GenerateDialogWrapper {
     @Override
     protected ValidationInfo doValidate() {
         if (this.modelName.getText().trim().isEmpty()) {
-            return new ValidationInfo("Model name not specified.");
+            return new ValidationInfo(FuelCmsBundle.message("validation.model.name.not.specified"));
         }
 
         return super.doValidate();

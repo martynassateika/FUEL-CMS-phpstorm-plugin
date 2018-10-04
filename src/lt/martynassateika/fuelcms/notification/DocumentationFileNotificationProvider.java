@@ -25,6 +25,7 @@ import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import java.net.URI;
 import java.util.Optional;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.util.FuelWebsiteUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,8 +69,9 @@ public class DocumentationFileNotificationProvider extends
 
     final EditorNotificationPanel panel = new EditorNotificationPanel();
 
-    panel.setText("You are viewing a FUEL CMS documentation file");
-    panel.createActionLabel("View online", () -> {
+    panel.setText(FuelCmsBundle.message("editor.notification.viewingDocs.text"));
+    panel.createActionLabel(FuelCmsBundle.message(
+        "editor.notification.viewingDocs.action.viewOnline"), () -> {
       URI uri = documentationPath.get();
       BrowserUtil.browse(uri);
     });

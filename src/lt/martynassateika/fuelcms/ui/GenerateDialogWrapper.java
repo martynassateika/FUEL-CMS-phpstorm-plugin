@@ -23,6 +23,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCli;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +73,8 @@ public abstract class GenerateDialogWrapper extends DialogWrapper {
         PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
         PhpInterpreter phpInterpreter = facade.getInterpreter();
         if (phpInterpreter == null) {
-            return new ValidationInfo("PHP interpreter is not configured.");
+            return new ValidationInfo(FuelCmsBundle.message(
+                "validation.php.interpreter.not.configured"));
         }
         return super.doValidate();
     }

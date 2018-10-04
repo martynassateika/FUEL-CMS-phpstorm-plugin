@@ -9,6 +9,7 @@ import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.io.FileUtil;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.FuelCmsProjectSettings;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
@@ -85,8 +86,8 @@ public class FuelCmsSettingsConfigurable implements SearchableConfigurable {
   private static FileChooserDescriptor createSceneBuilderDescriptor() {
     return FileChooserDescriptorFactory
         .createSingleFolderDescriptor()
-        .withTitle("FuelCms Configuration")
-        .withDescription("Select path to 'fuel' folder");
+        .withTitle(FuelCmsBundle.message("settings.title"))
+        .withDescription(FuelCmsBundle.message("settings.fuelFolderPathField.description"));
   }
 
   public static class FuelCmsConfigurablePanel {
