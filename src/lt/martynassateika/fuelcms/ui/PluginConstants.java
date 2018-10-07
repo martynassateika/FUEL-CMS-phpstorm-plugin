@@ -21,8 +21,8 @@ package lt.martynassateika.fuelcms.ui;
  */
 public class PluginConstants {
 
-    private static final String PREFIX = "lt.martynassateika.fuelcms";
+  private static final String PREFIX = "lt.martynassateika.fuelcms";
 
-    public static final String NOTIFICATION_GROUP = PREFIX;
+  public static final String NOTIFICATION_GROUP = PREFIX;
 
 }

@@ -17,14 +17,13 @@
 package icons;
 
 import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import javax.swing.Icon;
 
 /**
  * Houses icons used by the plugin.
  */
 public class Icons {
 
-    public static final Icon FUEL_CMS_ICON = IconLoader.getIcon("/icons/fuelcms_icon.png");
+  public static final Icon FUEL_CMS_ICON = IconLoader.getIcon("/icons/fuelcms_icon.png");
 
 }

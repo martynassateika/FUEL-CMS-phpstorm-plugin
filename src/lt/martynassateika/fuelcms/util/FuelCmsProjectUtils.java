@@ -21,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class FuelCmsProjectUtils {
 
-    public static boolean isFuelCmsProject(@Nullable Project project) {
-        return project != null && FuelCmsVfsUtils.getFuelFolder(project).isPresent();
-    }
+  public static boolean isFuelCmsProject(@Nullable Project project) {
+    return project != null && FuelCmsVfsUtils.getFuelFolder(project).isPresent();
+  }
 
 }

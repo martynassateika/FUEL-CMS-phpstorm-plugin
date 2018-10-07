@@ -25,18 +25,18 @@ import java.util.List;
  */
 public interface GenerateTarget {
 
-    /**
-     * Returns the command to execute.
-     * <p>
-     * The executable is not included, the first element represents the 'index.php' file.
-     *
-     * @return the 'generate' command, separated at spaces
-     */
-    List<String> getCommand();
+  /**
+   * Returns the command to execute.
+   * <p>
+   * The executable is not included, the first element represents the 'index.php' file.
+   *
+   * @return the 'generate' command, separated at spaces
+   */
+  List<String> getCommand();
 
-    /**
-     * @return name of the target
-     */
-    String getName();
+  /**
+   * @return name of the target
+   */
+  String getName();
 
 }

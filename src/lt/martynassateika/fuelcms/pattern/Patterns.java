@@ -24,14 +24,14 @@ import org.jetbrains.annotations.NotNull;
 
 public final class Patterns {
 
-    private Patterns() {
-    }
+  private Patterns() {
+  }
 
-    @NotNull
-    public static PsiElementPattern.Capture<LeafPsiElement> phpString() {
-        return PlatformPatterns
-                .psiElement(LeafPsiElement.class)
-                .withLanguage(PhpLanguage.INSTANCE);
-    }
+  @NotNull
+  public static PsiElementPattern.Capture<LeafPsiElement> phpString() {
+    return PlatformPatterns
+        .psiElement(LeafPsiElement.class)
+        .withLanguage(PhpLanguage.INSTANCE);
+  }
 
 }

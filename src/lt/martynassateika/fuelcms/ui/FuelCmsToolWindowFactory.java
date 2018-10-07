@@ -30,13 +30,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FuelCmsToolWindowFactory implements ToolWindowFactory {
 
-    @Override
-    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        // Ensure the console view instance is the same as that accessible from the service
-        ConsoleService service = ServiceManager.getService(project, ConsoleService.class);
-        ConsoleView consoleView = service.getConsoleView();
-        Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), "", true);
-        toolWindow.getContentManager().addContent(content);
-    }
+  @Override
+  public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+    // Ensure the console view instance is the same as that accessible from the service
+    ConsoleService service = ServiceManager.getService(project, ConsoleService.class);
+    ConsoleView consoleView = service.getConsoleView();
+    Content content = toolWindow.getContentManager().getFactory()
+        .createContent(consoleView.getComponent(), "", true);
+    toolWindow.getContentManager().addContent(content);
+  }
 
 }

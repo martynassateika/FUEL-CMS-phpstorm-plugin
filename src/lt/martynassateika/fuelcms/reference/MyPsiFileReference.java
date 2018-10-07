@@ -30,64 +30,65 @@ import org.jetbrains.annotations.Nullable;
  */
 class MyPsiFileReference implements PsiReference {
 
-    private final PsiFile file;
+  private final PsiFile file;
 
-    private final StringLiteralExpression literalExpression;
+  private final StringLiteralExpression literalExpression;
 
-    MyPsiFileReference(PsiFile file, StringLiteralExpression literalExpression) {
-        this.file = file;
-        this.literalExpression = literalExpression;
-    }
+  MyPsiFileReference(PsiFile file, StringLiteralExpression literalExpression) {
+    this.file = file;
+    this.literalExpression = literalExpression;
+  }
 
-    @NotNull
-    @Override
-    public PsiElement getElement() {
-        return literalExpression;
-    }
+  @NotNull
+  @Override
+  public PsiElement getElement() {
+    return literalExpression;
+  }
 
-    @NotNull
-    @Override
-    public TextRange getRangeInElement() {
-        int start = literalExpression.getTextRange().getStartOffset();
-        return literalExpression.getTextRange().shiftRight(-start);
-    }
+  @NotNull
+  @Override
+  public TextRange getRangeInElement() {
+    int start = literalExpression.getTextRange().getStartOffset();
+    return literalExpression.getTextRange().shiftRight(-start);
+  }
 
-    @Nullable
-    @Override
-    public PsiElement resolve() {
-        return file;
-    }
+  @Nullable
+  @Override
+  public PsiElement resolve() {
+    return file;
+  }
 
-    @NotNull
-    @Override
-    public String getCanonicalText() {
-        return "";
-    }
+  @NotNull
+  @Override
+  public String getCanonicalText() {
+    return "";
+  }
 
-    @Override
-    public PsiElement handleElementRename(String s) throws IncorrectOperationException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public PsiElement handleElementRename(String s) throws IncorrectOperationException {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public PsiElement bindToElement(@NotNull PsiElement psiElement) throws IncorrectOperationException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public PsiElement bindToElement(@NotNull PsiElement psiElement)
+      throws IncorrectOperationException {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public boolean isReferenceTo(PsiElement psiElement) {
-        return resolve() == psiElement;
-    }
+  @Override
+  public boolean isReferenceTo(PsiElement psiElement) {
+    return resolve() == psiElement;
+  }
 
-    @NotNull
-    @Override
-    public Object[] getVariants() {
-        return new Object[0];
-    }
+  @NotNull
+  @Override
+  public Object[] getVariants() {
+    return new Object[0];
+  }
 
-    @Override
-    public boolean isSoft() {
-        return true;
-    }
+  @Override
+  public boolean isSoft() {
+    return true;
+  }
 
 }
