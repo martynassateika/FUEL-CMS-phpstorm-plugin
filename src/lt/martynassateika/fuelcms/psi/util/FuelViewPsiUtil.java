@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * Utility methods for working with FUEL view files.
  *
  * @author martynas.sateika
+ * @since 0.2.0
  */
 public class FuelViewPsiUtil {
 

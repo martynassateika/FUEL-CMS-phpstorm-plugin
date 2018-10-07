@@ -31,6 +31,12 @@ import lt.martynassateika.fuelcms.FuelCmsProjectSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Methods for easier access to specific files and folders.
+ *
+ * @author martynas.sateika
+ * @since 0.1.0
+ */
 public class FuelCmsVfsUtils {
 
   public static Optional<VirtualFile> getFuelFolder(Project project) {

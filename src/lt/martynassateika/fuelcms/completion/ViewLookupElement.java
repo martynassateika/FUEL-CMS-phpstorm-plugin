@@ -10,23 +10,35 @@ import java.nio.file.Paths;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 
-class SimpleLookupElement extends LookupElement {
-
-  private final VirtualFile file;
+/**
+ * Lookup element for FUEL view files.
+ *
+ * @author martynas.sateika
+ */
+class ViewLookupElement extends LookupElement {
 
   private final String relativePath;
 
   private final String advancedModuleName;
 
-  SimpleLookupElement(VirtualFile blocksFolder, VirtualFile file, String advancedModuleName) {
-    this.file = file;
-    this.relativePath = getRelativePathToBlockFile(blocksFolder);
+  /**
+   * @param viewsFolder a folder with view files
+   * @param file a file inside {@code viewsFolder}
+   * @param advancedModuleName advanced module name the view is in (can be 'application')
+   */
+  ViewLookupElement(VirtualFile viewsFolder, VirtualFile file, String advancedModuleName) {
+    this.relativePath = getRelativePathToViewFile(viewsFolder, file);
     this.advancedModuleName = advancedModuleName;
   }
 
-  private String getRelativePathToBlockFile(VirtualFile blocksFolder) {
+  /**
+   * @param viewsFolder a folder with view files
+   * @param file a file inside {@code viewsFolder}
+   * @return relative path between {@code viewsFolder} and {@code file}
+   */
+  private static String getRelativePathToViewFile(VirtualFile viewsFolder, VirtualFile file) {
     Path filePath = Paths.get(PhpNameUtil.getNameWithoutExtension(file.getPath()));
-    Path blocksFolderPath = Paths.get(blocksFolder.getPath());
+    Path blocksFolderPath = Paths.get(viewsFolder.getPath());
     Path relativePath = blocksFolderPath.relativize(filePath);
     return FilenameUtils.separatorsToUnix(relativePath.toString());
   }

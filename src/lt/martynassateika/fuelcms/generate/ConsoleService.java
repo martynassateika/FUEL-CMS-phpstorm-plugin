@@ -24,6 +24,9 @@ import com.intellij.openapi.wm.ToolWindow;
 /**
  * Allows easy access to the {@link ConsoleView} associated with the FuelCMS Log {@link
  * ToolWindow}.
+ *
+ * @author martynas.sateika
+ * @since 0.1.0
  */
 public class ConsoleService {
 

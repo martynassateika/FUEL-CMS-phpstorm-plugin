@@ -48,7 +48,7 @@ public class ViewNameCompletionProvider extends CompletionProvider<CompletionPar
         .map(vf -> subFolder == null ? vf : vf.findChild(subFolder))
         .ifPresent(folder -> FuelCmsVfsUtils.getApplicationViews(project, subFolder)
             .stream()
-            .map(view -> new SimpleLookupElement(folder, view, "application"))
+            .map(view -> new ViewLookupElement(folder, view, "application"))
             .forEach(resultSet::addElement));
 
     // Check advanced modules
@@ -59,7 +59,7 @@ public class ViewNameCompletionProvider extends CompletionProvider<CompletionPar
           .map(vf -> subFolder == null ? vf : vf.findChild(subFolder))
           .ifPresent(folder -> FuelCmsVfsUtils.getModuleViews(project, moduleName, subFolder)
               .stream()
-              .map(view -> new SimpleLookupElement(folder, view, moduleName))
+              .map(view -> new ViewLookupElement(folder, view, moduleName))
               .forEach(resultSet::addElement));
     }
   }

@@ -22,6 +22,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Various utility methods for navigating the PSI tree.
+ *
+ * @author martynas.sateika
+ * @since 0.2.0
  */
 public class MyPsiUtil {
 

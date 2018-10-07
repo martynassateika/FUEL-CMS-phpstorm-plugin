@@ -27,6 +27,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * PsiReference implementation used to resolve string literals to files.
+ *
+ * @author martynas.sateika
+ * @since 0.2.0
  */
 class MyPsiFileReference implements PsiReference {
 

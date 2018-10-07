@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>lt.martynassateika.fuelcms</id>
   <name>FuelCMS Plugin</name>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <vendor url="http://www.martynassateika.lt">Martynas Sateika</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,15 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    0.4.0 (2018-10-07):
+    <ul>
+        <li>Allow configuration of 'fuel' path via settings</li>
+        <li>Better resolution icon, added icon for retina displays</li>
+        <li>Reference contributor for block names defined in array</li>
+        <li>Reference contributor and completion contributors for regular view files</li>
+        <li>Advanced module version numbers in project tree</li>
+    </ul>
+
     0.3.0 (2018-09-06):
     <ul>
         <li>Editor notification to view FUEL documentation on-line</li>

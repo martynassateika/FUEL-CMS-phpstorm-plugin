@@ -40,6 +40,9 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Allows navigation to view files.
+ *
+ * @author martynas.sateika
+ * @since 0.2.0
  */
 public class ViewReferenceContributor extends PsiReferenceContributor {
 
