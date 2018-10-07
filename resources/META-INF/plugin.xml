@@ -54,7 +54,7 @@
     <toolWindow id="FUEL CMS Log" icon="Icons.FUEL_CMS_ICON" anchor="bottom"
       factoryClass="lt.martynassateika.fuelcms.ui.FuelCmsToolWindowFactory"/>
     <psi.referenceContributor
-      implementation="lt.martynassateika.fuelcms.reference.BlockReferenceContributor"/>
+      implementation="lt.martynassateika.fuelcms.reference.ViewReferenceContributor"/>
     <editorNotificationProvider
       implementation="lt.martynassateika.fuelcms.notification.DocumentationFileNotificationProvider"/>
     <treeStructureProvider

@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lt.martynassateika.fuelcms.FuelCmsProjectSettings;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FuelCmsVfsUtils {
 
@@ -92,8 +93,13 @@ public class FuelCmsVfsUtils {
         .map(PhpFile.class::cast);
   }
 
-  public static List<VirtualFile> getApplicationBlocks(Project project) {
-    return getApplicationBlocksFolder(project)
+  public static List<VirtualFile> getApplicationViews(Project project) {
+    return getApplicationViews(project, null);
+  }
+
+  public static List<VirtualFile> getApplicationViews(Project project, @Nullable String subFolder) {
+    return getApplicationViewsFolder(project)
+        .map(vf -> subFolder == null ? vf : vf.findChild(subFolder))
         .map(VfsUtil::collectChildrenRecursively)
         .orElse(Collections.emptyList())
         .stream()
@@ -101,10 +107,9 @@ public class FuelCmsVfsUtils {
         .collect(Collectors.toList());
   }
 
-  public static Optional<VirtualFile> getApplicationBlocksFolder(Project project) {
+  public static Optional<VirtualFile> getApplicationViewsFolder(Project project) {
     return getApplicationFolder(project)
-        .map(vf -> vf.findChild("views"))
-        .map(vf -> vf.findChild("_blocks"));
+        .map(vf -> vf.findChild("views"));
   }
 
   public static Optional<VirtualFile> getModuleViewsFolder(Project project,
@@ -113,14 +118,14 @@ public class FuelCmsVfsUtils {
         .map(vf -> vf.findChild("views"));
   }
 
-  public static Optional<VirtualFile> getModuleBlocksFolder(Project project,
-      @NotNull String moduleName) {
-    return getModuleViewsFolder(project, moduleName)
-        .map(vf -> vf.findChild("_blocks"));
+  public static List<VirtualFile> getModuleViews(Project project, @NotNull String moduleName) {
+    return getModuleViews(project, moduleName, null);
   }
 
-  public static List<VirtualFile> getModuleBlocks(Project project, @NotNull String moduleName) {
-    return getModuleBlocksFolder(project, moduleName)
+  public static List<VirtualFile> getModuleViews(Project project, @NotNull String moduleName,
+      @Nullable String subFolder) {
+    return getModuleViewsFolder(project, moduleName)
+        .map(vf -> subFolder == null ? vf : vf.findChild(subFolder))
         .map(VfsUtil::collectChildrenRecursively)
         .orElse(Collections.emptyList())
         .stream()

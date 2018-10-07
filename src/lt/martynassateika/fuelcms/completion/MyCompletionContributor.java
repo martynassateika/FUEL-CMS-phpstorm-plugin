@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class MyCompletionContributor extends CompletionContributor {
 
   public MyCompletionContributor() {
-    extend(CompletionType.BASIC, getPlace(), new BlockNameCompletionProvider());
+    extend(CompletionType.BASIC, getPlace(), new ViewNameCompletionProvider());
   }
 
   @NotNull
