@@ -37,7 +37,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <completion.contributor language="any"
-      implementationClass="lt.martynassateika.fuelcms.completion.BlockNameCompletionContributor"/>
+      implementationClass="lt.martynassateika.fuelcms.completion.MyCompletionContributor"/>
     <!-- Declare the project level service -->
     <projectService id="FuelCmsConsoleService"
       serviceImplementation="lt.martynassateika.fuelcms.generate.ConsoleService"/>

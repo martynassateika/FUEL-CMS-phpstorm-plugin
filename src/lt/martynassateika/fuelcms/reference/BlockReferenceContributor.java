@@ -16,6 +16,7 @@
 
 package lt.martynassateika.fuelcms.reference;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
@@ -28,6 +29,8 @@ import com.intellij.util.PathUtil;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lt.martynassateika.fuelcms.psi.util.FuelBlockPsiUtil;
@@ -48,23 +51,50 @@ public class BlockReferenceContributor extends PsiReferenceContributor {
       public PsiReference[] getReferencesByElement(@NotNull PsiElement psiElement,
           @NotNull ProcessingContext processingContext) {
         if (psiElement instanceof StringLiteralExpression) {
+          Project project = psiElement.getProject();
           StringLiteralExpression literalExpression = (StringLiteralExpression) psiElement;
           if (FuelBlockPsiUtil.isFuelBlockName(literalExpression)) {
             String blockFileName = PathUtil.makeFileName(literalExpression.getContents(), "php");
-            PsiManager psiManager = PsiManager.getInstance(psiElement.getProject());
+            PsiManager psiManager = PsiManager.getInstance(project);
+
+            List<PsiReference> references = new ArrayList<>();
+
+            // Check application folder
             Optional<VirtualFile> blocksFolder = FuelCmsVfsUtils
-                .getBlocksFolder(psiElement.getProject());
+                .getApplicationBlocksFolder(project);
             if (blocksFolder.isPresent()) {
               String blockPath = Paths.get(blocksFolder.get().getPath(), blockFileName).toString();
               String normalizedBlockPath = FilenameUtils.separatorsToUnix(blockPath);
-              return FuelCmsVfsUtils.getBlocks(psiElement.getProject())
+              FuelCmsVfsUtils.getApplicationBlocks(project)
                   .stream()
                   .filter(vf -> vf.getPath().startsWith(normalizedBlockPath))
                   .map(psiManager::findFile)
                   .filter(Objects::nonNull)
                   .map(file -> new MyPsiFileReference(file, literalExpression))
-                  .toArray(PsiReference[]::new);
+                  .forEachOrdered(references::add);
             }
+
+            // Check advanced modules
+            List<VirtualFile> modules = FuelCmsVfsUtils.getAdvancedModules(project);
+            for (VirtualFile module : modules) {
+              String moduleName = module.getName();
+              Optional<VirtualFile> moduleBlocksFolder = FuelCmsVfsUtils
+                  .getModuleBlocksFolder(project, moduleName);
+              if (moduleBlocksFolder.isPresent()) {
+                String blockPath = Paths.get(moduleBlocksFolder.get().getPath(), blockFileName)
+                    .toString();
+                String normalizedBlockPath = FilenameUtils.separatorsToUnix(blockPath);
+                FuelCmsVfsUtils.getModuleBlocks(project, moduleName)
+                    .stream()
+                    .filter(vf -> vf.getPath().startsWith(normalizedBlockPath))
+                    .map(psiManager::findFile)
+                    .filter(Objects::nonNull)
+                    .map(file -> new MyPsiFileReference(file, literalExpression))
+                    .forEachOrdered(references::add);
+              }
+            }
+
+            return references.toArray(PsiReference.EMPTY_ARRAY);
           }
         }
         return PsiReference.EMPTY_ARRAY;

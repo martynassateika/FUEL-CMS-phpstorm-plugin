@@ -92,8 +92,8 @@ public class FuelCmsVfsUtils {
         .map(PhpFile.class::cast);
   }
 
-  public static List<VirtualFile> getBlocks(Project project) {
-    return getBlocksFolder(project)
+  public static List<VirtualFile> getApplicationBlocks(Project project) {
+    return getApplicationBlocksFolder(project)
         .map(VfsUtil::collectChildrenRecursively)
         .orElse(Collections.emptyList())
         .stream()
@@ -101,7 +101,7 @@ public class FuelCmsVfsUtils {
         .collect(Collectors.toList());
   }
 
-  public static Optional<VirtualFile> getBlocksFolder(Project project) {
+  public static Optional<VirtualFile> getApplicationBlocksFolder(Project project) {
     return getApplicationFolder(project)
         .map(vf -> vf.findChild("views"))
         .map(vf -> vf.findChild("_blocks"));
@@ -111,6 +111,21 @@ public class FuelCmsVfsUtils {
       @NotNull String moduleName) {
     return getModuleFolder(project, moduleName)
         .map(vf -> vf.findChild("views"));
+  }
+
+  public static Optional<VirtualFile> getModuleBlocksFolder(Project project,
+      @NotNull String moduleName) {
+    return getModuleViewsFolder(project, moduleName)
+        .map(vf -> vf.findChild("_blocks"));
+  }
+
+  public static List<VirtualFile> getModuleBlocks(Project project, @NotNull String moduleName) {
+    return getModuleBlocksFolder(project, moduleName)
+        .map(VfsUtil::collectChildrenRecursively)
+        .orElse(Collections.emptyList())
+        .stream()
+        .filter(vf -> "php".equalsIgnoreCase(vf.getExtension()))
+        .collect(Collectors.toList());
   }
 
   public static Optional<VirtualFile> getModuleDocumentationFolder(Project project,
