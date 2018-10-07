@@ -11,6 +11,8 @@ Installation
 * Install the plugin by going to `Settings -> Plugins -> Browse repositories` and searching for "FuelCMS".
 * Enable it in your project by going to `File -> Settings -> Languages & Frameworks -> PHP -> FUEL CMS`.
 
+![](screenshot.png)
+
 Attributions
 ------------
 * The module is built for use with [FUEL CMS](https://github.com/daylightstudio/FUEL-CMS), a framework built by David McReynolds, licenced under [Apache 2](http://www.apache.org/licenses/LICENSE-2.0.html).
