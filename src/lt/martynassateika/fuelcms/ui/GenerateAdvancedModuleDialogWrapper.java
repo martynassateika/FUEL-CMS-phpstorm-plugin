@@ -21,79 +21,79 @@ import com.google.common.base.Splitter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.jetbrains.php.refactoring.PhpNameUtil;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCmsAdvancedModule;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
-import lt.martynassateika.fuelcms.util.Messages;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 public class GenerateAdvancedModuleDialogWrapper extends GenerateDialogWrapper {
 
-    private JPanel contentPane;
+  private JPanel contentPane;
 
-    private JTextField advancedModuleName;
+  private JTextField advancedModuleName;
 
-    private JLabel commandLabel;
+  private JLabel commandLabel;
 
-    public GenerateAdvancedModuleDialogWrapper(@Nullable Project project) {
-        super(project);
-        init();
+  public GenerateAdvancedModuleDialogWrapper(@Nullable Project project) {
+    super(project);
+    init();
 
-        // Custom setup
-        setUpListeners();
-        setTitle("FUEL CMS: Generate Advanced Module");
+    // Custom setup
+    setUpListeners();
+    setTitle(FuelCmsBundle.message("dialog.generate.advanced.module.title"));
 
-        // Defaults
-        advancedModuleName.setText("example");
+    // Defaults
+    advancedModuleName.setText("example");
+  }
+
+  @Override
+  GenerateTarget getGenerateTarget() {
+    return new FuelCmsAdvancedModule(advancedModuleName.getText().trim());
+  }
+
+  @Nullable
+  @Override
+  protected JComponent createCenterPanel() {
+    return contentPane;
+  }
+
+  @Nullable
+  @Override
+  protected ValidationInfo doValidate() {
+    String trimmedName = this.advancedModuleName.getText().trim();
+    if (trimmedName.isEmpty()) {
+      return new ValidationInfo(FuelCmsBundle.message(
+          "validation.advanced.module.name.not.specified"));
     }
 
-    @Override
-    GenerateTarget getGenerateTarget() {
-        return new FuelCmsAdvancedModule(advancedModuleName.getText().trim());
+    // The user can supply one or more advanced module names.
+    // Check they're all valid PHP class names, and do not already exist.
+    Iterable<String> split = Splitter.on(":").split(this.advancedModuleName.getText());
+    for (String name : split) {
+      if (!PhpNameUtil.isValidClassName(name)) {
+        return new ValidationInfo(FuelCmsBundle.message("validation.invalid.php.class.name", name));
+      }
+      if (FuelCmsVfsUtils.advancedModuleExists(project, name)) {
+        return new ValidationInfo(FuelCmsBundle.message("validation.advanced.module.exists", name));
+      }
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return contentPane;
-    }
+    return super.doValidate();
+  }
 
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        String trimmedName = this.advancedModuleName.getText().trim();
-        if (trimmedName.isEmpty()) {
-            return new ValidationInfo("Advanced module name not specified.");
-        }
+  private void setUpListeners() {
+    advancedModuleName.getDocument().addDocumentListener(
+        (DelegatingDocumentListener) e -> uiUpdated());
+  }
 
-        // The user can supply one or more advanced module names.
-        // Check they're all valid PHP class names, and do not already exist.
-        Iterable<String> split = Splitter.on(":").split(this.advancedModuleName.getText());
-        for (String name : split) {
-            if (!PhpNameUtil.isValidClassName(name)) {
-                return new ValidationInfo(Messages.invalidClassName(name));
-            }
-            if (FuelCmsVfsUtils.advancedModuleExists(project, name)) {
-                return new ValidationInfo(String.format(
-                        "Advanced module '%s' already exists",
-                        name
-                ));
-            }
-        }
-
-        return super.doValidate();
-    }
-
-    private void setUpListeners() {
-        advancedModuleName.getDocument().addDocumentListener(
-                (DelegatingDocumentListener) e -> uiUpdated());
-    }
-
-    private void uiUpdated() {
-        String joined = Joiner.on(" ").join(getGenerateTarget().getCommand());
-        commandLabel.setText("php " + joined);
-    }
+  private void uiUpdated() {
+    String joined = Joiner.on(" ").join(getGenerateTarget().getCommand());
+    commandLabel.setText("php " + joined);
+  }
 
 }

@@ -24,46 +24,45 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Helper functions for interacting with the FuelCMS CLI.
  */
 public class FuelCli {
 
-    private static final Logger LOGGER = Logger.getInstance(FuelCli.class);
+  private static final Logger LOGGER = Logger.getInstance(FuelCli.class);
 
-    /**
-     * Executes a FuelCMS "generate" command, producing <tt>target</tt>.
-     *
-     * @param project current IDE project
-     * @param target  target of the "generate" command
-     * @throws ExecutionException if an {@link OSProcessHandler} cannot be set up
-     */
-    public static void executeGenerateCommand(@NotNull Project project,
-                                              @NotNull GenerateTarget target) throws ExecutionException {
-        PhpInterpreter phpInterpreter = PhpProjectConfigurationFacade
-                .getInstance(project)
-                .getInterpreter();
-        if (phpInterpreter != null) {
-            // Set up FUEL CMS generate command
-            List<String> commands = new ArrayList<>();
-            commands.add(phpInterpreter.getPathToPhpExecutable());
-            commands.addAll(target.getCommand());
+  /**
+   * Executes a FuelCMS "generate" command, producing <tt>target</tt>.
+   *
+   * @param project current IDE project
+   * @param target target of the "generate" command
+   * @throws ExecutionException if an {@link OSProcessHandler} cannot be set up
+   */
+  public static void executeGenerateCommand(@NotNull Project project,
+      @NotNull GenerateTarget target) throws ExecutionException {
+    PhpInterpreter phpInterpreter = PhpProjectConfigurationFacade
+        .getInstance(project)
+        .getInterpreter();
+    if (phpInterpreter != null) {
+      // Set up FUEL CMS generate command
+      List<String> commands = new ArrayList<>();
+      commands.add(phpInterpreter.getPathToPhpExecutable());
+      commands.addAll(target.getCommand());
 
-            GeneralCommandLine commandLine = new GeneralCommandLine(commands)
-                    .withCharset(StandardCharsets.UTF_8)
-                    .withWorkDirectory(project.getBasePath());
-            ProcessHandler processHandler = new OSProcessHandler(commandLine);
-            processHandler.addProcessListener(new DefaultProcessListener(project, target));
-            processHandler.startNotify();
-        } else {
-            LOGGER.debug("Not running generate command, reason: PHP interpreter is not set up.");
-        }
+      GeneralCommandLine commandLine = new GeneralCommandLine(commands)
+          .withCharset(StandardCharsets.UTF_8)
+          .withWorkDirectory(project.getBasePath());
+      ProcessHandler processHandler = new OSProcessHandler(commandLine);
+      processHandler.addProcessListener(new DefaultProcessListener(project, target));
+      processHandler.startNotify();
+    } else {
+      LOGGER.debug("Not running generate command, reason: PHP interpreter is not set up.");
     }
+  }
 
 }

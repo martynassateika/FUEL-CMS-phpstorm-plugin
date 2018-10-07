@@ -16,48 +16,46 @@
 
 package lt.martynassateika.fuelcms.generate;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a FuelCMS model class.
  */
 public class FuelCmsModel implements GenerateTarget {
 
-    private final String name;
+  private final String name;
 
-    @Nullable
-    private String advancedModule;
+  @Nullable
+  private String advancedModule;
 
-    /**
-     * @param name           model name
-     * @param advancedModule advanced module this model belongs to (null indicates the model
-     *                       is not part of an advanced module, and instead resides in the
-     *                       'application' directory)
-     */
-    public FuelCmsModel(@NotNull String name, @Nullable String advancedModule) {
-        this.name = name;
-        this.advancedModule = advancedModule;
+  /**
+   * @param name model name
+   * @param advancedModule advanced module this model belongs to (null indicates the model is not
+   * part of an advanced module, and instead resides in the 'application' directory)
+   */
+  public FuelCmsModel(@NotNull String name, @Nullable String advancedModule) {
+    this.name = name;
+    this.advancedModule = advancedModule;
+  }
+
+  @Override
+  public List<String> getCommand() {
+    List<String> strings = new ArrayList<>(4);
+    strings.add("index.php");
+    strings.add("fuel/generate/model");
+    strings.add(name);
+    if (advancedModule != null) {
+      strings.add(advancedModule);
     }
+    return strings;
+  }
 
-    @Override
-    public List<String> getCommand() {
-        List<String> strings = new ArrayList<>(4);
-        strings.add("index.php");
-        strings.add("fuel/generate/model");
-        strings.add(name);
-        if (advancedModule != null) {
-            strings.add(advancedModule);
-        }
-        return strings;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
 }

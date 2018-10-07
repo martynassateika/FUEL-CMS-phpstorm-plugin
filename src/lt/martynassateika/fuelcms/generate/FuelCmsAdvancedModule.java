@@ -16,37 +16,36 @@
 
 package lt.martynassateika.fuelcms.generate;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a FuelCMS advanced module class.
  */
 public class FuelCmsAdvancedModule implements GenerateTarget {
 
-    private final String name;
+  private final String name;
 
-    /**
-     * @param name advanced module name
-     */
-    public FuelCmsAdvancedModule(@NotNull String name) {
-        this.name = name;
-    }
+  /**
+   * @param name advanced module name
+   */
+  public FuelCmsAdvancedModule(@NotNull String name) {
+    this.name = name;
+  }
 
-    @Override
-    public List<String> getCommand() {
-        List<String> strings = new ArrayList<>(3);
-        strings.add("index.php");
-        strings.add("fuel/generate/advanced");
-        strings.add(name);
-        return strings;
-    }
+  @Override
+  public List<String> getCommand() {
+    List<String> strings = new ArrayList<>(3);
+    strings.add("index.php");
+    strings.add("fuel/generate/advanced");
+    strings.add(name);
+    return strings;
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
 }

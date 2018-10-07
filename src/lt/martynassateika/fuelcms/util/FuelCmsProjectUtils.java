@@ -19,10 +19,14 @@ package lt.martynassateika.fuelcms.util;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author martynas.sateika
+ * @since 0.1.0
+ */
 public class FuelCmsProjectUtils {
 
-    public static boolean isFuelCmsProject(@Nullable Project project) {
-        return project != null && FuelCmsVfsUtils.getFuelFolder(project).isPresent();
-    }
+  public static boolean isFuelCmsProject(@Nullable Project project) {
+    return project != null && FuelCmsVfsUtils.getFuelFolder(project).isPresent();
+  }
 
 }

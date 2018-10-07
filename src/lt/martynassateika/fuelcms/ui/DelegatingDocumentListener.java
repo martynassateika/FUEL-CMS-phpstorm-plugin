@@ -25,21 +25,21 @@ import javax.swing.event.DocumentListener;
 @FunctionalInterface
 interface DelegatingDocumentListener extends DocumentListener {
 
-    void updated(DocumentEvent e);
+  void updated(DocumentEvent e);
 
-    @Override
-    default void insertUpdate(DocumentEvent e) {
-        updated(e);
-    }
+  @Override
+  default void insertUpdate(DocumentEvent e) {
+    updated(e);
+  }
 
-    @Override
-    default void removeUpdate(DocumentEvent e) {
-        updated(e);
-    }
+  @Override
+  default void removeUpdate(DocumentEvent e) {
+    updated(e);
+  }
 
-    @Override
-    default void changedUpdate(DocumentEvent e) {
-        updated(e);
-    }
+  @Override
+  default void changedUpdate(DocumentEvent e) {
+    updated(e);
+  }
 
 }

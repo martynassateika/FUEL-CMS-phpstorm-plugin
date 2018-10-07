@@ -22,19 +22,23 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 
 /**
- * Allows easy access to the {@link ConsoleView} associated with the FuelCMS Log {@link ToolWindow}.
+ * Allows easy access to the {@link ConsoleView} associated with the FuelCMS Log {@link
+ * ToolWindow}.
+ *
+ * @author martynas.sateika
+ * @since 0.1.0
  */
 public class ConsoleService {
 
-    private final ConsoleView consoleView;
+  private final ConsoleView consoleView;
 
-    public ConsoleService(Project project) {
-        this.consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project)
-                .getConsole();
-    }
+  public ConsoleService(Project project) {
+    this.consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project)
+        .getConsole();
+  }
 
-    public ConsoleView getConsoleView() {
-        return consoleView;
-    }
+  public ConsoleView getConsoleView() {
+    return consoleView;
+  }
 
 }

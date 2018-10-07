@@ -20,84 +20,89 @@ import com.google.common.base.Joiner;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCmsModel;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class GenerateModelDialogWrapper extends GenerateDialogWrapper {
 
-    private JPanel contentPane;
+  private JPanel contentPane;
 
-    private JTextField modelName;
+  private JTextField modelName;
 
-    private JComboBox<String> advancedModule;
+  private JComboBox<String> advancedModule;
 
-    private JLabel commandLabel;
+  private JLabel commandLabel;
 
-    public GenerateModelDialogWrapper(@Nullable Project project) {
-        super(project);
-        init();
+  public GenerateModelDialogWrapper(@Nullable Project project) {
+    super(project);
+    init();
 
-        // Custom setup
-        setUpListeners();
-        populateAdvancedModules(project);
-        setTitle("FUEL CMS: Generate Model");
+    // Custom setup
+    setUpListeners();
+    populateAdvancedModules(project);
+    setTitle(FuelCmsBundle.message("dialog.generate.model.title"));
 
-        // Defaults
-        modelName.setText("example");
+    // Defaults
+    modelName.setText("example");
+  }
+
+  @Override
+  GenerateTarget getGenerateTarget() {
+    String module = isAdvancedModuleSelected()
+        ? advancedModule.getSelectedItem().toString()
+        : null;
+    return new FuelCmsModel(modelName.getText().trim(), module);
+  }
+
+  private boolean isAdvancedModuleSelected() {
+    return advancedModule.getSelectedIndex() > 0;
+  }
+
+  private void populateAdvancedModules(Project project) {
+    advancedModule.addItem(FuelCmsBundle.message(
+        "dialog.generate.no.advanced.module.dropdown.item"));
+    List<String> advancedModules = FuelCmsVfsUtils.getAdvancedModules(project)
+        .stream()
+        .map(VirtualFile::getName)
+        .collect(Collectors.toList());
+    advancedModules.forEach(advancedModule::addItem);
+  }
+
+  @Nullable
+  @Override
+  protected JComponent createCenterPanel() {
+    return contentPane;
+  }
+
+  @Nullable
+  @Override
+  protected ValidationInfo doValidate() {
+    if (this.modelName.getText().trim().isEmpty()) {
+      return new ValidationInfo(FuelCmsBundle.message("validation.model.name.not.specified"));
     }
 
-    @Override
-    GenerateTarget getGenerateTarget() {
-        String module = isAdvancedModuleSelected()
-                ? advancedModule.getSelectedItem().toString()
-                : null;
-        return new FuelCmsModel(modelName.getText().trim(), module);
-    }
+    return super.doValidate();
+  }
 
-    private boolean isAdvancedModuleSelected() {
-        return advancedModule.getSelectedIndex() > 0;
-    }
+  private void setUpListeners() {
+    modelName.getDocument().addDocumentListener(
+        (DelegatingDocumentListener) e -> uiUpdated());
+    advancedModule.addActionListener(e -> uiUpdated());
+  }
 
-    private void populateAdvancedModules(Project project) {
-        advancedModule.addItem("none (use application folder)");
-        List<String> advancedModules = FuelCmsVfsUtils.getAdvancedModules(project)
-                .stream()
-                .map(VirtualFile::getName)
-                .collect(Collectors.toList());
-        advancedModules.forEach(advancedModule::addItem);
-    }
-
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return contentPane;
-    }
-
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        if (this.modelName.getText().trim().isEmpty()) {
-            return new ValidationInfo("Model name not specified.");
-        }
-
-        return super.doValidate();
-    }
-
-    private void setUpListeners() {
-        modelName.getDocument().addDocumentListener(
-                (DelegatingDocumentListener) e -> uiUpdated());
-        advancedModule.addActionListener(e -> uiUpdated());
-    }
-
-    private void uiUpdated() {
-        String joined = Joiner.on(" ").join(getGenerateTarget().getCommand());
-        commandLabel.setText("php " + joined);
-    }
+  private void uiUpdated() {
+    String joined = Joiner.on(" ").join(getGenerateTarget().getCommand());
+    commandLabel.setText("php " + joined);
+  }
 
 }

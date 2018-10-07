@@ -27,16 +27,16 @@ import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
  */
 public class GenerateAdvancedModuleAction extends AnAction {
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
-        DialogWrapper dialog = new GenerateAdvancedModuleDialogWrapper(anActionEvent.getProject());
-        dialog.show();
-    }
+  @Override
+  public void actionPerformed(AnActionEvent anActionEvent) {
+    DialogWrapper dialog = new GenerateAdvancedModuleDialogWrapper(anActionEvent.getProject());
+    dialog.show();
+  }
 
-    @Override
-    public void update(AnActionEvent e) {
-        boolean isFuelCmsProject = FuelCmsProjectUtils.isFuelCmsProject(e.getProject());
-        e.getPresentation().setEnabled(isFuelCmsProject);
-    }
+  @Override
+  public void update(AnActionEvent e) {
+    boolean isFuelCmsProject = FuelCmsProjectUtils.isFuelCmsProject(e.getProject());
+    e.getPresentation().setEnabled(isFuelCmsProject);
+  }
 
 }

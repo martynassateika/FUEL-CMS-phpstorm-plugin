@@ -23,6 +23,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
+import lt.martynassateika.fuelcms.FuelCmsBundle;
 import lt.martynassateika.fuelcms.generate.FuelCli;
 import lt.martynassateika.fuelcms.generate.GenerateTarget;
 import org.jetbrains.annotations.Nullable;
@@ -32,49 +33,50 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class GenerateDialogWrapper extends DialogWrapper {
 
-    private static final Logger LOGGER = Logger.getInstance(GenerateDialogWrapper.class);
+  private static final Logger LOGGER = Logger.getInstance(GenerateDialogWrapper.class);
 
-    protected final Project project;
+  protected final Project project;
 
-    GenerateDialogWrapper(@Nullable Project project) {
-        super(project);
-        this.project = project;
+  GenerateDialogWrapper(@Nullable Project project) {
+    super(project);
+    this.project = project;
+  }
+
+  /**
+   * Sub-classes have access to UI elements and so can construct instances of {@link
+   * GenerateTarget}.
+   *
+   * @return 'generate' command's target
+   */
+  abstract GenerateTarget getGenerateTarget();
+
+  /**
+   * Prevents the modal window from being closed if an error occurs during generation.
+   */
+  @Override
+  protected void doOKAction() {
+    if (project != null) {
+      try {
+        FuelCli.executeGenerateCommand(project, getGenerateTarget());
+        super.doOKAction();
+      } catch (ExecutionException e) {
+        LOGGER.error("Could not execute 'generate' command", e);
+        // TODO Notification
+      }
     }
+  }
 
-    /**
-     * Sub-classes have access to UI elements and so
-     * can construct instances of {@link GenerateTarget}.
-     *
-     * @return 'generate' command's target
-     */
-    abstract GenerateTarget getGenerateTarget();
-
-    /**
-     * Prevents the modal window from being closed if an error occurs during generation.
-     */
-    @Override
-    protected void doOKAction() {
-        if (project != null) {
-            try {
-                FuelCli.executeGenerateCommand(project, getGenerateTarget());
-                super.doOKAction();
-            } catch (ExecutionException e) {
-                LOGGER.error("Could not execute 'generate' command", e);
-                // TODO Notification
-            }
-        }
+  @Nullable
+  @Override
+  protected ValidationInfo doValidate() {
+    // Check PHP is installed
+    PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
+    PhpInterpreter phpInterpreter = facade.getInterpreter();
+    if (phpInterpreter == null) {
+      return new ValidationInfo(FuelCmsBundle.message(
+          "validation.php.interpreter.not.configured"));
     }
-
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        // Check PHP is installed
-        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(project);
-        PhpInterpreter phpInterpreter = facade.getInterpreter();
-        if (phpInterpreter == null) {
-            return new ValidationInfo("PHP interpreter is not configured.");
-        }
-        return super.doValidate();
-    }
+    return super.doValidate();
+  }
 
 }

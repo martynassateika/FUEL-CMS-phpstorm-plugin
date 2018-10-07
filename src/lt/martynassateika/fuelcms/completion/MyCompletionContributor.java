@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package lt.martynassateika.fuelcms.pattern;
+package lt.martynassateika.fuelcms.completion;
 
+import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.jetbrains.php.lang.PhpLanguage;
 import org.jetbrains.annotations.NotNull;
 
-public final class Patterns {
+public class MyCompletionContributor extends CompletionContributor {
 
-    private Patterns() {
-    }
+  public MyCompletionContributor() {
+    extend(CompletionType.BASIC, getPlace(), new ViewNameCompletionProvider());
+  }
 
-    @NotNull
-    public static PsiElementPattern.Capture<LeafPsiElement> phpString() {
-        return PlatformPatterns
-                .psiElement(LeafPsiElement.class)
-                .withLanguage(PhpLanguage.INSTANCE);
-    }
+  @NotNull
+  private PsiElementPattern.Capture<LeafPsiElement> getPlace() {
+    return PlatformPatterns
+        .psiElement(LeafPsiElement.class)
+        .withLanguage(PhpLanguage.INSTANCE);
+  }
 
 }
