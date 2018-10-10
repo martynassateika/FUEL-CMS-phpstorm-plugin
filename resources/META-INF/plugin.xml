@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>lt.martynassateika.fuelcms</id>
-  <name>FuelCMS Plugin</name>
-  <version>0.4.0</version>
+  <name>FuelCMS</name>
+  <version>0.4.1</version>
   <vendor url="http://www.martynassateika.lt">Martynas Sateika</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    0.4.1 (2018-10-10):
+    <ul>
+        <li>Rename plugin to "FuelCMS"</li>
+    </ul>
+
     0.4.0 (2018-10-07):
     <ul>
         <li>Allow configuration of 'fuel' path via settings</li>
