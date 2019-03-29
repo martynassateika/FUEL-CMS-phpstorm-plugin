@@ -21,6 +21,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
 import lt.martynassateika.fuelcms.ui.GenerateAdvancedModuleDialogWrapper;
 import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Opens up a modal window for simple module creation.
@@ -28,13 +29,13 @@ import lt.martynassateika.fuelcms.util.FuelCmsProjectUtils;
 public class GenerateAdvancedModuleAction extends AnAction {
 
   @Override
-  public void actionPerformed(AnActionEvent anActionEvent) {
+  public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
     DialogWrapper dialog = new GenerateAdvancedModuleDialogWrapper(anActionEvent.getProject());
     dialog.show();
   }
 
   @Override
-  public void update(AnActionEvent e) {
+  public void update(@NotNull AnActionEvent e) {
     boolean isFuelCmsProject = FuelCmsProjectUtils.isFuelCmsProject(e.getProject());
     e.getPresentation().setEnabled(isFuelCmsProject);
   }
