@@ -23,7 +23,9 @@ import org.jetbrains.annotations.Nullable;
 public class ViewNameCompletionProvider extends CompletionProvider<CompletionParameters> {
 
   @Override
-  protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context,
+  protected void addCompletions(
+      @NotNull CompletionParameters parameters,
+      @NotNull ProcessingContext context,
       @NotNull CompletionResultSet resultSet) {
     PsiElement originalPosition = parameters.getOriginalPosition();
     if (originalPosition != null) {

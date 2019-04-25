@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import lt.martynassateika.fuelcms.util.FuelCmsVfsUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Updates the presentation of certain FUEL-CMS files and folders in the tree structure.
@@ -46,6 +47,12 @@ public class ModuleTreeStructureProvider implements TreeStructureProvider {
       nodes.add(node);
     }
     return nodes;
+  }
+
+  @Nullable
+  @Override
+  public Object getData(Collection<AbstractTreeNode> collection, String s) {
+    return null; // default method overridden for 2016.1 support
   }
 
 }

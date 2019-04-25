@@ -27,7 +27,7 @@ public class FuelModuleNode extends PsiDirectoryNode {
   }
 
   @Override
-  protected void updateImpl(PresentationData data) {
+  protected void updateImpl(@NotNull PresentationData data) {
     data.clearText();
     data.setIcon(Icons.FUEL_CMS_ICON);
     data.addText(directory.getName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);

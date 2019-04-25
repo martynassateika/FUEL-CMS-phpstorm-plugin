@@ -83,6 +83,12 @@ public class FuelCmsSettingsConfigurable implements SearchableConfigurable {
     return getHelpTopic();
   }
 
+  @Nullable
+  @Override
+  public Runnable enableSearch(String s) {
+    return null; // default method overridden for 2016.1 support
+  }
+
   private static FileChooserDescriptor createSceneBuilderDescriptor() {
     return FileChooserDescriptorFactory
         .createSingleFolderDescriptor()

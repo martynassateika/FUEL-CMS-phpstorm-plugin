@@ -7,6 +7,7 @@ import com.jetbrains.php.refactoring.PhpNameUtil;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Optional;
+import lt.martynassateika.fuelcms.compat.VfsUtilCompat;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,7 +35,7 @@ public class FuelWebsiteUtils {
     return FuelCmsVfsUtils
         .getModuleDocumentationFolder(project, "fuel")
         .filter(docsFolder -> VfsUtil.isUnder(file, Collections.singleton(docsFolder)))
-        .map(docsFolder -> VfsUtil.findRelativePath(docsFolder, file, '/'))
+        .map(docsFolder -> VfsUtilCompat.findRelativePath(docsFolder, file, '/'))
         .filter(relativePath -> !relativePath.startsWith("_"))
         .filter(relativePath -> !relativePath.contains("/_"))
         .map(PhpNameUtil::getNameWithoutExtension)
