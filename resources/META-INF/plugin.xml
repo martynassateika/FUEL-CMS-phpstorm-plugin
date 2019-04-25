@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>lt.martynassateika.fuelcms</id>
   <name>FuelCMS</name>
-  <version>0.4.1</version>
+  <version>0.4.2</version>
   <vendor url="http://www.martynassateika.lt">Martynas Sateika</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    0.4.2 (2019-04-25):
+    <ul>
+        <li>Fixed several compatibility issues with PhpStorm 2016.*, 2017.*</li>
+    </ul>
+
     0.4.1 (2018-10-10):
     <ul>
         <li>Rename plugin to "FuelCMS"</li>
